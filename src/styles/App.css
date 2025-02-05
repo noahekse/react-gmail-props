@@ -83,7 +83,7 @@
   background-color: transparent;
 }
 
-.email {
+.emailItem {
   display: grid;
   grid-template-columns: 30px 30px 150px 1fr;
   padding: 10px;
@@ -93,42 +93,42 @@
   border-bottom: solid 1px #00000020;
 }
 
-.email:first-child {
+.emailItem:first-child {
   border-top: solid 1px #00000020;
 }
 
-.email:hover {
+.emailItem:hover {
   box-shadow: -1px 1px 2px 0 #00000040;
   z-index: 1;
 }
 
-.email.read {
+.emailItem.read {
   background-color: rgb(240, 240, 240);
 }
 
-.email.unread {
+.emailItem.unread {
   font-weight: 600;
 }
 
-.email .title {
+.emailItem .title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.email .star-checkbox {
+.emailItem .star-checkbox {
   appearance: none;
   position: relative;
   display: grid;
   align-content: center;
 }
 
-.email .star-checkbox:focus {
+.emailItem .star-checkbox:focus {
   outline: none;
 }
 
-.email .star-checkbox:checked::before,
-.email .star-checkbox::before {
+.emailItem .star-checkbox:checked::before,
+.emailItem .star-checkbox::before {
   content: '';
   background-size: cover;
   width: 20px;
@@ -137,10 +137,10 @@
   top: -3px;
 }
 
-.email .star-checkbox::before {
+.emailItem .star-checkbox::before {
   background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_border_black_20dp.png);
 }
 
-.email .star-checkbox:checked::before {
+.emailItem .star-checkbox:checked::before {
   background-image: url(https://www.gstatic.com/images/icons/material/system/2x/star_googyellow500_20dp.png);
 }

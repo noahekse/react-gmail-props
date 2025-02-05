@@ -3,6 +3,7 @@ import { useState } from 'react'
 import initialEmails from './data/emails'
 
 import './styles/App.css'
+import Emails from './components/Emails'
 
 const getReadEmails = emails => emails.filter(email => !email.read)
 
@@ -12,6 +13,19 @@ function App() {
   const [emails, setEmails] = useState(initialEmails)
   const [hideRead, setHideRead] = useState(false)
   const [currentTab, setCurrentTab] = useState('inbox')
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFilterEmails, setFilteredEmails] = useState(emails);
+  
+  const handleSearch = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filtered = emails.filter((email) =>
+      email.title.toLowerCase().includes(query)
+    );
+    setFilteredEmails(filtered);
+  };
 
   const unreadEmails = emails.filter(email => !email.read)
   const starredEmails = emails.filter(email => email.starred)
@@ -56,21 +70,27 @@ function App() {
         </div>
 
         <div className="search">
-          <input className="search-bar" placeholder="Search mail" />
+          <input className="search-bar" placeholder="Search mail" value={searchQuery} onChange={handleSearch}/>
         </div>
       </header>
       <nav className="left-menu">
         <ul className="inbox-list">
           <li
             className={`item ${currentTab === 'inbox' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('inbox')}
+            onClick={() => 
+              {setCurrentTab('inbox')
+              setSelectedEmail(null)
+            }}
           >
             <span className="label">Inbox</span>
             <span className="count">{unreadEmails.length}</span>
           </li>
           <li
             className={`item ${currentTab === 'starred' ? 'active' : ''}`}
-            onClick={() => setCurrentTab('starred')}
+            onClick={() => 
+              {setCurrentTab('starred')
+              setSelectedEmail(null)
+            }}
           >
             <span className="label">Starred</span>
             <span className="count">{starredEmails.length}</span>
@@ -87,35 +107,7 @@ function App() {
           </li>
         </ul>
       </nav>
-      <main className="emails">
-        <ul>
-          {filteredEmails.map((email, index) => (
-            <li
-              key={index}
-              className={`email ${email.read ? 'read' : 'unread'}`}
-            >
-              <div className="select">
-                <input
-                  className="select-checkbox"
-                  type="checkbox"
-                  checked={email.read}
-                  onChange={() => toggleRead(email)}
-                />
-              </div>
-              <div className="star">
-                <input
-                  className="star-checkbox"
-                  type="checkbox"
-                  checked={email.starred}
-                  onChange={() => toggleStar(email)}
-                />
-              </div>
-              <div className="sender">{email.sender}</div>
-              <div className="title">{email.title}</div>
-            </li>
-          ))}
-        </ul>
-      </main>
+      <Emails filteredEmails={searchQuery !== "" ? searchFilterEmails : filteredEmails} toggleRead={toggleRead} toggleStar={toggleStar} selectedEmail={selectedEmail} setSelectedEmail={setSelectedEmail}/>
     </div>
   )
 }
